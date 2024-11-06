@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import { useToast } from "@/components/ui/use-toast"
 
 // Initial shifts data
 const initialShifts = [
@@ -24,6 +25,7 @@ export default function ShiftCalendar() {
   const [shifts, setShifts] = useState(initialShifts)
   const [weekRange, setWeekRange] = useState("6")
   const [pattern, setPattern] = useState("custom")
+  const { toast } = useToast()
 
   const generatePatternShifts = (pattern: string, weeks: number) => {
     const patternMap = {
@@ -73,6 +75,11 @@ export default function ShiftCalendar() {
   
   const saveChanges = () => {
     console.log("Saving shifts:", shifts, "Pattern:", pattern)
+    
+    toast({
+      title: "Changes saved",
+      description: "Your shift schedule has been updated successfully.",
+    })
   }
 
 
@@ -83,15 +90,15 @@ export default function ShiftCalendar() {
       </SheetTrigger>
       <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto max-h-screen">
         <SheetHeader>
-          <SheetTitle>Shift Calendar</SheetTitle>
-          <SheetDescription>View and manage shifts for multiple weeks</SheetDescription>
+          <SheetTitle className="text-base font-bold">Shift Calendar</SheetTitle>
+          <SheetDescription className="text-sm">View and manage shifts for multiple weeks</SheetDescription>
         </SheetHeader>
         <div className="mt-6">
           <div className="flex justify-between items-center mb-4">
             <Button variant="outline" size="icon" onClick={prevWeek}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <h2 className="text-lg font-semibold">
+            <h2 className="text-base font-medium">
               {format(currentWeek, "MMMM d")} - {format(addDays(currentWeek, 7 * parseInt(weekRange) - 1), "MMMM d, yyyy")}
             </h2>
             <Button variant="outline" size="icon" onClick={nextWeek}>
@@ -116,7 +123,7 @@ export default function ShiftCalendar() {
             </Select>
           </div>
           <div className="mb-4">
-            <Label className="mb-2 block font-semibold">Shift Pattern</Label>
+            <Label className="mb-2 block text-sm font-medium">Shift Pattern</Label>
             <RadioGroup value={pattern} onValueChange={setPattern} className="flex space-x-4">
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="custom" id="custom" />
