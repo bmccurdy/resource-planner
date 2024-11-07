@@ -1,4 +1,4 @@
-import ShiftCalendar from "@/components/shift-calendar"
+import ShiftCalendar from "@/components/shift-calendar/index"
 
 export default function Page() {
   return (
