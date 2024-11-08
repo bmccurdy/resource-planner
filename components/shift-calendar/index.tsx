@@ -23,7 +23,7 @@ export default function ShiftCalendar() {
 
   useEffect(() => {
     if (pattern !== "custom") {
-      setShifts(generatePatternShifts(pattern, parseInt(weekRange), shifts))
+      setShifts(currentShifts => generatePatternShifts(pattern, parseInt(weekRange), currentShifts))
     }
   }, [pattern, weekRange])
 
