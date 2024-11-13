@@ -44,6 +44,27 @@ export default function ShiftCalendar() {
     })
   }
 
+  const handleShiftPattern = (weekIndex: number, offset: number) => {
+    setShifts(currentShifts => {
+      return currentShifts.map((week, idx) => {
+        if (idx === weekIndex) {
+          const newShifts = [...week.shifts]
+          if (offset > 0) {
+            // Shift right
+            const last = newShifts.pop()!
+            newShifts.unshift(last)
+          } else {
+            // Shift left
+            const first = newShifts.shift()!
+            newShifts.push(first)
+          }
+          return { ...week, shifts: newShifts }
+        }
+        return week
+      })
+    })
+  }
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -133,6 +154,7 @@ export default function ShiftCalendar() {
                 weekIndex={weekIndex}
                 currentWeek={currentWeek}
                 onToggleShift={handleToggleShift}
+                onShiftPattern={pattern === "custom" ? handleShiftPattern : undefined}
               />
             ))}
           </div>
